@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: SpringBootMCPServer #"@project.name@"
+  datasource:
+    url: jdbc:postgresql://localhost:5432/springbootdb
+    username: postgres
+    password: tiger
+    #password: ENC(a28+rzKYU3zwbY4gWs/26Jm5wGq3dh+dYBsoGSADjJCzdYGEMS7+tUtpoANzHwnZ)
+    hikari:
+      connection-timeout: 5000
+      maximum-pool-size: 5
+      idle-timeout: 600000
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  ai:
+    mcp:
+      server:
+        protocol: STREAMABLE
+        name: customer-mcp-server
+        version: 1.0.0
+        type: SYNC
+        capabilities:
+          tool: true
+          resource: false
+          prompt: false
+        streamable-http:
+          mcp-endpoint: /mcp
+
+server:
+  port: 8093

@@ -32,3 +32,48 @@ spring:
 
 server:
   port: 8093
+
+#run a springboot appliccation with mcp server connecting to postgresql
+  # Spring AI MCP Configuration
+  ai:
+    mcp:
+      server:
+        stdio:
+          enabled: true
+        name: "PostgreSQL Data Tool"
+        version: "1.0.0"
+
+# Crucial for Stdio transport: ensure logs go to a file, NOT stdout
+logging:
+  file:
+    name: logs/mcp-server.log
+  level:
+    root: INFO
+
+  #
+  #5. Hooking it Up to an MCP Client (e.g., Claude Desktop)
+  #
+  #To give an AI agent access to your new PostgreSQL tools, you must update the client's configuration file.
+  #For Claude Desktop, open your configurations file (claude_desktop_config.json):
+  #• macOS: ~/Library/Application Support/Claude/claude_desktop_config.json
+  #• Windows: %APPDATA%\Claude\claude_desktop_config.json
+  #Add your Spring Boot app under the mcpServers block:
+  #json
+  #{
+  #  "mcpServers": {
+  #    "springboot-postgres": {
+  #      "command": "java",
+  #      "args": [
+  #        "-jar",
+  #        "/absolute/path/to/your/target/postgres-mcp-server-0.0.1-SNAPSHOT.jar"
+  #      ]
+  #    }
+  #  }
+  #}
+  #Use code with caution.
+  #
+  #6. Run and Test
+  #
+  #1. Restart your Claude Desktop (or your chosen MCP host client).
+  #2. Look for the plug/tool icon in the interface to confirm that get_customer_by_email and get_recent_orders have successfully registered.
+  #3. Ask the AI: "Can you check if we have a customer registered with the email alex@example.com and list their recent orders?"
